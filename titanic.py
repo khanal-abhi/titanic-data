@@ -8,6 +8,7 @@ Created on Mon May  8 19:24:34 2017
 
 import numpy as np
 import pandas as pd
+from random import shuffle
 
 train_df = pd.read_csv('train.csv')
 train_data = train_df.as_matrix()
@@ -49,9 +50,20 @@ def get_preprocessed_data(data):
         if age[i] == 0:
             age[i] = avg_age
                
-    X = np.hstack((classes[:,0], classes[:,1], classes[:,2], sex, age, fare)).astype(float)    
-    return X, survived
+    X = np.vstack((classes[:,0], classes[:,1], classes[:,2], sex, age, fare)).astype(float)    
+    return X.T, survived
     
 X_train, Y_train = get_preprocessed_data(train_data)
 X_test, Y_test = get_preprocessed_data(test_data)
-           
+
+X_subtest = X_train[-100:]
+Y_subtest = Y_train[-100:]
+
+X_train = X_train[:-100]
+Y_train = Y_train[:-100]
+
+learning_rate = 0.01
+costs = []
+
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
