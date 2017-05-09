@@ -62,7 +62,7 @@ def get_preprocessed_data(data):
     fare = (fare - fare.mean()) / fare.std()
                
     X = np.vstack((classes[:,0], classes[:,1], classes[:,2], sex, age, fare)).astype(float)    
-    #X = np.vstack((sex, age, fare)).astype(float)    
+    X = np.vstack((classes[:,0], classes[:,1], classes[:,2], sex, age)).astype(float)    
     return X.T, survived
     
 X_train, Y_train = get_preprocessed_data(train_data)
@@ -88,10 +88,11 @@ Y_train = Y_train[:-100]
 W = np.random.randn(D+1) / np.sqrt(D+1)
 
 
-learning_rate = 0.00001
-epochs = 1000000
+learning_rate = 0.001
+epochs = 10000
 costs = []
-r1 = 0.1
+r1 = 10
+r2 = 0.1
 
 def sigmoid(z):
     return 1 / (1 + np.exp(-z))
@@ -117,7 +118,7 @@ for e in range(epochs):
     #err = cross_entropy(Y_hat, Y_train)
     #if e % (epochs / 100) == 0:
     #    costs.append(err)
-    W += learning_rate*(X_train.T.dot(delta) - W*r1)
+    W += learning_rate*(r2*np.eye(N-100).dot(X_train).T.dot(delta) - r1*W)
     
 #plt.plot(costs)
 #plt.show()
