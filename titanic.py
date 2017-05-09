@@ -61,7 +61,7 @@ def get_preprocessed_data(data):
     age = (age - age.mean()) / age.std()
     fare = (fare - fare.mean()) / fare.std()
                
-    X = np.vstack((classes[:,0], classes[:,1], classes[:,2], sex, age, fare)).astype(float)    
+    #X = np.vstack((classes[:,0], classes[:,1], classes[:,2], sex, age, fare)).astype(float)    
     X = np.vstack((classes[:,0], classes[:,1], classes[:,2], sex, age)).astype(float)    
     return X.T, survived
     
@@ -89,7 +89,7 @@ W = np.random.randn(D+1) / np.sqrt(D+1)
 
 
 learning_rate = 0.001
-epochs = 10000
+epochs = 100000
 costs = []
 r1 = 10
 r2 = 0.1
